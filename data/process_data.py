@@ -9,7 +9,7 @@ def load_data(messages_filepath, categories_filepath):
     Load csv files as dataframes
     :param messages_filepath: path of file containing message
     :param categories_filepath: path of containing categories
-    :return: tuple of pandas dataframe
+    :return: merged dataframe
     :type message_filepath: str
     :type categories_file_path: str
     :rtype: pandas dataframe
