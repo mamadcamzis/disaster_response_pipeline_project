@@ -60,7 +60,7 @@ def save_data(df, database_filename):
     :return:
     """
     engine = create_engine('sqlite:///' + database_filename)
-    df.to_sql(database_filename[:-3], engine, if_exists='replace', index=False)
+    df.to_sql('DisasterTable', engine, if_exists='replace', index=False)
 
 
 def main():
