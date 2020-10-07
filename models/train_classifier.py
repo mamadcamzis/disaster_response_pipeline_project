@@ -3,13 +3,12 @@ import numpy as np
 import pandas as pd
 import re
 import pickle
-import time
+
 
 import nltk
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
 
 from sqlalchemy import create_engine
 
@@ -20,6 +19,8 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import f1_score, classification_report
+
+nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
 
 
 class StartingVerbExtractor(BaseEstimator, TransformerMixin):
@@ -111,7 +112,7 @@ def build_model():
         'aclf__estimator__n_estimators': [100, 200]
     }
     cv = GridSearchCV(estimator=pipeline, param_grid=parameters, cv=3,
-                      n_jobs=-1, verbose=3)
+                      verbose=3)
     return cv
 
 
