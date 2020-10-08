@@ -31,8 +31,8 @@ def tokenize(text):
     :param text: text to tokenize
     :return: clean toknized text
     """
-    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]' + \
-                 '|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    text = text.lower().strip()
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
         text = text.replace(url, "urlplaceholder")
@@ -43,7 +43,7 @@ def tokenize(text):
     lemmatizer = WordNetLemmatizer()
     clean_tokens = []
     for tok in word_tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tok = lemmatizer.lemmatize(tok)
         clean_tokens.append(clean_tok)
 
     return clean_tokens
@@ -135,14 +135,11 @@ model = joblib.load("../models/classifier.pkl")
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify
-    #  to extract data for your own visuals
+
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
     
     # create visuals
-    # TODO: Below is an example -
-    #  modify to create your own visuals
     # target distribution
     target_distribution = df.drop(['id', 'message', 'original', 'genre'],
                                   axis=1).mean()
@@ -199,7 +196,7 @@ def index():
             ],
 
             'layout': {
-                'title': 'Top 20 words and counts',
+                'title': 'Top 10 words and counts',
                 'yaxis': {
                     'title': "Count"
                 },
