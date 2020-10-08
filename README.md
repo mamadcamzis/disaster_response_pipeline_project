@@ -34,7 +34,7 @@ Test evaluation metrics are also printed as part of the training proces
 - notebooks/ETL_Pipeline_Preparation.ipynb: The code and analysis contained in this Jupyter notebook was used in the development of process_data.py. process_data.py automates this notebook.
 - notebooks/ML_Pipeline_Preparation.ipynb: The code and analysis contained in this Jupyter notebook was used in the development of train_classifier.py. In particular, it contains the analysis used to tune the ML model and determine which model to use. train_classifier.py automates the model fitting process contained in this notebook.
 ### Instructions:
-1. Run the following commands in the project's root directory to set up your database and model.
+1. Run the following commands in the project's root.
      - I have created a python virtualenv. Activate virtualenv all required packages are already installed.
      Run this command
       `source disasterenv/bin/activate`
