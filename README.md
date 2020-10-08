@@ -7,7 +7,11 @@ For example "water", "shelter", "food",  are kind of possible categories
 
 <p>This is an overview of the homepage:</p>
 
-<img src='data/home.png' alt='homepage'>
+<img src='data/home1.png' alt='homepage1'>
+
+
+<img src='data/home2.png' alt='homepage2'>
+
 
 ### Required Libraries
 - Numpy
