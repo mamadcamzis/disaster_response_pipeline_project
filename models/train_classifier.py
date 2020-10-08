@@ -15,10 +15,10 @@ from sqlalchemy import create_engine
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.multioutput import MultiOutputClassifier
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import f1_score, classification_report
+from sklearn.metrics import classification_report
 
 nltk.download(['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger'])
 
@@ -70,8 +70,8 @@ def tokenize(text):
     :param text: text to tokenize
     :return: clean toknized text
     """
-    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]' + \
-                 '|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    text = text.lower().strip()
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
         text = text.replace(url, "urlplaceholder")
@@ -82,7 +82,7 @@ def tokenize(text):
     lemmatizer = WordNetLemmatizer()
     clean_tokens = []
     for tok in word_tokens:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tok = lemmatizer.lemmatize(tok)
         clean_tokens.append(clean_tok)
 
     return clean_tokens
@@ -108,8 +108,8 @@ def build_model():
         ('aclf', MultiOutputClassifier(AdaBoostClassifier()))
     ])
     parameters = {
-        'aclf__estimator__learning_rate': [0.1, 0.2, 0.3],
-        'aclf__estimator__n_estimators': [100, 200]
+        'aclf__estimator__learning_rate': [0.1, 0.3],
+        'aclf__estimator__n_estimators': [200]
     }
     cv = GridSearchCV(estimator=pipeline, param_grid=parameters, cv=3,
                       verbose=3)
@@ -124,10 +124,12 @@ def evaluate_model(model, X_test, Y_test, category_names):
     :param category_names: categories of the label
     :return: print classification of each  categories
     """
-    y_prediction = model.predict(X_test)
-    print(classification_report(Y_test.iloc[:, 1:].values,
-                                np.array([x[1:] for x in y_prediction]),
-                                target_names=category_names))
+    y_pred = model.predict(X_test)
+    y_prediction = pd.DataFrame(y_pred, columns=category_names)
+    for col in category_names:
+        print('Model performance with category %s'%col)
+        print()
+        print(classification_report(Y_test[col], y_prediction[col]))
 
 
 def save_model(model, model_filepath):
