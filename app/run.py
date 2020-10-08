@@ -13,7 +13,7 @@ from sklearn.decomposition import TruncatedSVD
 import nltk
 
 from flask import Flask
-from flask import render_template, request, jsonify
+from flask import render_template, request
 from plotly.graph_objs import Bar, Scatter
 from sklearn.base import BaseEstimator, TransformerMixin
 import joblib
