@@ -49,6 +49,9 @@ Test evaluation metrics are also printed as part of the training proces
 
 3. Go to http://0.0.0.0:3001/
 
+I have already deployed the app on the cloud platform Heroku. Here is the link to deployed app:
+https://disaster-app-mc.herokuapp.com/
+
 ### Analysis
 We see that data are data are hignly unbalanced which may affect our score.
 That's why tunnig the model is very tricky and take much  time for doing an exhaustive search.
